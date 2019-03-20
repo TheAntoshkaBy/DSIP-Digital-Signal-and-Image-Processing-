@@ -4,8 +4,6 @@ import matplotlib.pyplot as plt
 
 
 def main():
-    # amount of bins equals to sample rate
-
     n = 64
     arguments = np.arange(0, n) * np.pi / 6
     function_values_1 = list(map(lambda x: np.sin(x), arguments))
@@ -16,9 +14,11 @@ def main():
     basic_convolution = SignalProcessor.correlation_convolution(function_values_1, function_values_2, n, -1)
     print('Basic convolution complexity: {}'.format(SignalProcessor.complexity_counter))
 
-    fft_based_correlation = SignalProcessor.correlation_convolution_fft_based(function_values_1, function_values_2, n, 1)
+    fft_based_correlation = \
+        SignalProcessor.correlation_convolution_fft_based(function_values_1, function_values_2, n, 1)
     print('FFT-based correlation complexity: {}'.format(SignalProcessor.complexity_counter))
-    fft_based_convolution = SignalProcessor.correlation_convolution_fft_based(function_values_1, function_values_2, n, -1)
+    fft_based_convolution = \
+        SignalProcessor.correlation_convolution_fft_based(function_values_1, function_values_2, n, -1)
     print('FFT-based convolution complexity: {}'.format(SignalProcessor.complexity_counter))
 
     np_correlation = np.correlate(function_values_1, function_values_2, mode='same')

@@ -27,7 +27,6 @@ class SignalProcessor:
 
                 SignalProcessor.complexity_counter += 1
 
-            temp /= length
             result.append(temp)
 
         return result
@@ -61,4 +60,4 @@ class SignalProcessor:
         result = FourierTransform.fft(temp, length, -1)
         SignalProcessor.complexity_counter += FourierTransform.complexity_counter
 
-        return FourierTransform.normalize_transform(result, length)
+        return result
