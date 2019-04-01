@@ -6,15 +6,14 @@ class SignalProcessor:
     complexity_counter = 0
 
     @staticmethod
-    def correlation_convolution(first_sequence, second_sequence, length, operation):
-        if length <= 0:
-            raise Exception('Length must be a positive value! Got {}'.format(length))
-
+    def correlation_convolution(first_sequence, second_sequence, operation):
         if operation != 1 and operation != -1:
             raise Exception('Operation must equal to 1(correlation) ot -1(convolution)! Got {}'.format(operation))
 
-        if len(first_sequence) < length or len(second_sequence) < length:
-            raise Exception('Sequence length must not be less than passed length param!')
+        length = len(first_sequence)
+
+        if length != len(second_sequence):
+            raise Exception("Sequences' lengths must be equal!")
 
         SignalProcessor.complexity_counter = 0
 
@@ -32,15 +31,14 @@ class SignalProcessor:
         return result
 
     @staticmethod
-    def correlation_convolution_fft_based(first_sequence, second_sequence, length, operation):
-        if length <= 0:
-            raise Exception('Length must be a positive value! Got {}'.format(length))
-
+    def correlation_convolution_fft_based(first_sequence, second_sequence, operation):
         if operation != 1 and operation != -1:
             raise Exception('Operation must equal to 1(correlation) ot -1(convolution)! Got {}'.format(operation))
 
-        if len(first_sequence) < length or len(second_sequence) < length:
-            raise Exception('Sequence length must not be less than passed length param!')
+        length = len(first_sequence)
+
+        if length != len(second_sequence):
+            raise Exception("Sequences' lengths must be equal!")
 
         SignalProcessor.complexity_counter = 0
 

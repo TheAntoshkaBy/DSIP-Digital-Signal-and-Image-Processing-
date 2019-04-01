@@ -5,15 +5,51 @@ import numpy as np
 class FourierTransform:
     complexity_counter = 0
 
-    @staticmethod
-    def fft(input_data, input_length, direction=1):
-        fft_result = FourierTransform.__dif_fft(input_data, input_length, direction)
+    @classmethod
+    def fft(cls, input_data, input_length, direction=1):
+        fft_result = cls._dif_fft(input_data, input_length, direction)
 
         if direction == -1:
             for i in range(input_length):
                 fft_result[i] /= input_length
 
         return fft_result
+
+    @classmethod
+    def _dif_fft(cls, input_data, input_length, direction=1):
+        if cls._is_power_of_two(input_length):
+            length = input_length
+            bits_in_length = int(np.log2(length))
+        else:
+            bits_in_length = np.log2(input_length)
+            length = 1 << bits_in_length
+
+        data = list(map(complex, input_data[:length]))
+
+        cls.complexity_counter = 0
+
+        for ldm in range(bits_in_length, 0, -1):
+            m = 2 ** ldm
+            mh = int(m / 2)
+            for k in range(mh):
+                w = np.exp(direction * -2j * np.pi * k / m)
+                for r in range(0, length, m):
+                    u = data[r + k]
+                    v = data[r + k + mh]
+
+                    data[r + k] = u + v
+                    data[r + k + mh] = (u - v) * w
+
+                    cls.complexity_counter += 1
+
+        for i in range(length):
+            j = cls._reverse_bits(i, bits_in_length)
+            if j > i:
+                temp = data[j]
+                data[j] = data[i]
+                data[i] = temp
+
+        return data
 
     @staticmethod
     def fft_shift(fft_result):
@@ -31,49 +67,11 @@ class FourierTransform:
         return list(np.divide(fft_result, length))
 
     @staticmethod
-    def __dif_fft(input_data, input_length, direction=1):
-        if FourierTransform.__is_power_of_two(input_length):
-            length = input_length
-            bits_in_length = int(np.log2(length))
-        else:
-            bits_in_length = np.log2(input_length)
-            length = 1 << bits_in_length
-
-        data = []
-        for i in range(length):
-            data.append(complex(input_data[i]))
-
-        FourierTransform.complexity_counter = 0
-
-        for ldm in range(bits_in_length, 0, -1):
-            m = 2 ** ldm
-            mh = int(m / 2)
-            for k in range(mh):
-                w = np.exp(direction * -2j * np.pi * k / m)
-                for r in range(0, length, m):
-                    u = data[r + k]
-                    v = data[r + k + mh]
-
-                    data[r + k] = u + v
-                    data[r + k + mh] = (u - v) * w
-
-                    FourierTransform.complexity_counter += 1
-
-        for i in range(length):
-            j = FourierTransform.__reverse_bits(i, bits_in_length)
-            if j > i:
-                temp = data[j]
-                data[j] = data[i]
-                data[i] = temp
-
-        return data
-
-    @staticmethod
-    def __is_power_of_two(n):
+    def _is_power_of_two(n):
         return n > 1 and (n & (n - 1)) == 0
 
     @staticmethod
-    def __reverse_bits(n, bits_count):
+    def _reverse_bits(n, bits_count):
         reversed_value = 0
 
         for i in range(bits_count):

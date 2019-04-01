@@ -6,26 +6,26 @@ import matplotlib.pyplot as plt
 def main():
     n = 64
     arguments = np.arange(0, n) * np.pi / 6
-    function_values_1 = list(map(lambda x: np.sin(x), arguments))
+    function_values_1 = list(map(np.sin, arguments))
     function_values_2 = list(map(lambda x: np.cos(4 * x), arguments))
 
-    basic_correlation = SignalProcessor.correlation_convolution(function_values_1, function_values_2, n, 1)
+    basic_correlation = SignalProcessor.correlation_convolution(function_values_1, function_values_2, 1)
     print('Basic correlation complexity: {}'.format(SignalProcessor.complexity_counter))
-    basic_convolution = SignalProcessor.correlation_convolution(function_values_1, function_values_2, n, -1)
+    basic_convolution = SignalProcessor.correlation_convolution(function_values_1, function_values_2, -1)
     print('Basic convolution complexity: {}'.format(SignalProcessor.complexity_counter))
 
     fft_based_correlation = \
-        SignalProcessor.correlation_convolution_fft_based(function_values_1, function_values_2, n, 1)
+        SignalProcessor.correlation_convolution_fft_based(function_values_1, function_values_2, 1)
     print('FFT-based correlation complexity: {}'.format(SignalProcessor.complexity_counter))
     fft_based_convolution = \
-        SignalProcessor.correlation_convolution_fft_based(function_values_1, function_values_2, n, -1)
+        SignalProcessor.correlation_convolution_fft_based(function_values_1, function_values_2, -1)
     print('FFT-based convolution complexity: {}'.format(SignalProcessor.complexity_counter))
 
     np_correlation = np.correlate(function_values_1, function_values_2, mode='same')
     np_convolution = np.convolve(function_values_1, function_values_2, mode='same')
 
     # plotting part
-    fig, ((ax1, ax2), (ax3, ax4), (ax5, ax6), (ax7, ax8)) = plt.subplots(4, 2)
+    _, ((ax1, ax2), (ax3, ax4), (ax5, ax6), (ax7, ax8)) = plt.subplots(4, 2)
 
     ax1.plot(arguments, function_values_1)
     ax1.set(title='First sequence')
