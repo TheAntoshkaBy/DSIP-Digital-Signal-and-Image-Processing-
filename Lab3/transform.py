@@ -72,11 +72,6 @@ def dwt(data, direction):
             ]
         )
 
-        # if direction == 1:
-        #    print([walsh_function(
-        #        n if direction == 1 else i, (i if direction == 1 else n) / length + time_offset, length
-        #    ) for i in range(length)])
-
         transformed_result.append(temp)
 
     if direction == 1:
@@ -87,7 +82,7 @@ def dwt(data, direction):
 
 def rademacher_function(t, k):
     x = np.sin(2 ** k * np.pi * t)
-    # print('rademacher:', k, '***', t, '***', x, '***', 1 if x > 0 else -1)
+
     return 1 if x > 0 else -1
 
 
@@ -95,15 +90,6 @@ def walsh_function(n, t, length):
     r = int(np.log2(length))
     rademacher_values = \
         [rademacher_function(t, k) ** xor_bit(bit(n, k - 1), bit(n, k)) for k in range(1, r + 1)]
-
-    # for k in range(1, r + 1):
-    #    if xor_bit(bit(n, r - k + 1), bit(n, r - k)):
-    #       print('r:', k, 'bits:', r)
-
-    # for k in range(r):
-    #    print('wal:', n, 'rad:', k + 1, '***', t/length, "***", rademacher_values[k])
-
-    # print('---------------------------------')
 
     return reduce(lambda x, y: x * y, rademacher_values)
 

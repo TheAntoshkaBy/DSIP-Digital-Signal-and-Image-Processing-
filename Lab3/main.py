@@ -4,8 +4,7 @@ import matplotlib.pyplot as plt
 
 
 def main():
-    # amount of bins equals to sample rate
-    n = 128
+    n = 64
     arguments = np.arange(0, n) * np.pi / 6
     function_values = list(map(lambda x: np.sin(x) + np.cos(4 * x), arguments))
 
