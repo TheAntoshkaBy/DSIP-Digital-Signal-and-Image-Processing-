@@ -7,7 +7,7 @@ def main():
     n = 64
     arguments = np.arange(0, n) * np.pi / 6
     function_values_1 = list(map(np.sin, arguments))
-    function_values_2 = list(map(lambda x: np.cos(4 * x), arguments))
+    function_values_2 = list(map(lambda x: np.sin(4 * x), arguments))
 
     basic_correlation = SignalProcessor.correlation_convolution(function_values_1, function_values_2, 1)
     print('Basic correlation complexity: {}'.format(SignalProcessor.complexity_counter))
