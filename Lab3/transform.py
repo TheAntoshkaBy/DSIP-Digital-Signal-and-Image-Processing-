@@ -2,7 +2,7 @@ import numpy as np
 from functools import reduce
 
 
-def fwht(input_data, direction = 1):
+def fwht(input_data, direction=1):
     input_length = len(input_data)
 
     if is_power_of_two(input_length):
@@ -12,9 +12,7 @@ def fwht(input_data, direction = 1):
         bits_in_length = np.log2(input_length)
         length = 1 << bits_in_length
 
-    data = []
-    for i in range(length):
-        data.append(input_data[i])
+    data = input_data[:]
 
     for ldm in range(bits_in_length, 0, -1):
         m = 2 ** ldm
