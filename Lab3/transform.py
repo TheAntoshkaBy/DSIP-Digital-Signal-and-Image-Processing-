@@ -25,9 +25,6 @@ def dwht(input_data, direction=1):
     result = np.dot(hadamard_matrix, data)
 
     if direction == 1:
-        print(hadamard_matrix)
-
-    if direction == 1:
         result /= length
 
     return result
@@ -119,11 +116,6 @@ def dwt(data, direction=1):
                 ) for i in range(length)
             ]
         )
-
-        if direction == 1:
-           print([walsh_function(
-               n if direction == 1 else i, (i if direction == 1 else n) / length + time_offset, length
-           ) for i in range(length)])
 
         transformed_result.append(temp)
 
