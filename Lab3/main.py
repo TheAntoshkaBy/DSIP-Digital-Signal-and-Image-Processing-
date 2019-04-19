@@ -15,6 +15,11 @@ def main():
     reverse_dwht_result = tr.dwht(dwht_result, -1)
     reverse_fwht_result = tr.fwht(fwht_result, -1)
 
+    # fwht_result_copy = fwht_result[:]
+    # for i in range(n):
+        # print(i, tr.gray_to_binary(tr.reverse_bits(i, int(np.log2(n)))))
+        # fwht_result[i] = fwht_result_copy[tr.gray_to_binary(tr.reverse_bits(i, int(np.log2(n))))]
+
     for i in range(n):
         print(dwt_result[i], ' : ', fwht_result[i])
 
@@ -25,7 +30,7 @@ def main():
     ax1.set(title='Function plot')
     ax1.grid()
 
-    ax3.plot(arguments, dwht_result)
+    ax3.plot(arguments, dwt_result)
     ax3.set(title='Magnitude spectrum plot (DWT)')
     ax3.grid()
 
@@ -41,7 +46,7 @@ def main():
     # ax4.set(title='Magnitude spectrum plot (FWHT)')
     # ax4.grid()
 
-    ax5.plot(arguments, reverse_dwht_result)
+    ax5.plot(arguments, reverse_dwt_result)
     ax5.set(title='Reverse DWT plot')
     ax5.grid()
 

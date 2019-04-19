@@ -25,6 +25,9 @@ def dwht(input_data, direction=1):
     result = np.dot(hadamard_matrix, data)
 
     if direction == 1:
+        print(hadamard_matrix)
+
+    if direction == 1:
         result /= length
 
     return result
@@ -40,8 +43,9 @@ def fwht(input_data, direction=1):
         bits_in_length = np.log2(input_length)
         length = 1 << bits_in_length
 
-    data = input_data[0:length]
-
+    data = sequency_reordering(input_data)
+    # or, to produce a Hadamard ordered result, use
+    # data = input_data[:]
     for ldm in range(bits_in_length, 0, -1):
         m = 2 ** ldm
         mh = int(m / 2)
@@ -55,6 +59,23 @@ def fwht(input_data, direction=1):
 
     if direction == 1:
         data = list(np.divide(data, length))
+
+    return data
+
+
+def sequency_reordering(input_data):
+    input_length = len(input_data)
+
+    if is_power_of_two(input_length):
+        length = input_length
+        bits_in_length = int(np.log2(length))
+    else:
+        bits_in_length = np.log2(input_length)
+        length = 1 << bits_in_length
+
+    data = input_data[0:length]
+    for i in range(length):
+        data[i] = input_data[gray_to_binary(reverse_bits(i, bits_in_length))]
 
     return data
 
@@ -74,6 +95,15 @@ def reverse_bits(n, bits_count):
         reversed_value |= next_bit
 
     return reversed_value
+
+
+def gray_to_binary(num):
+    mask = num
+    while mask != 0:
+        mask >>= 1
+        num ^= mask
+
+    return num
 
 
 def dwt(data, direction=1):
