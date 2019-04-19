@@ -9,16 +9,9 @@ def main():
     function_values = list(map(lambda x: np.sin(x) + np.cos(4 * x), arguments))
 
     dwt_result = tr.dwt(function_values, 1)
-    dwht_result = tr.dwht(function_values, 1)
     fwht_result = tr.fwht(function_values, 1)
     reverse_dwt_result = tr.dwt(dwt_result, -1)
-    reverse_dwht_result = tr.dwht(dwht_result, -1)
     reverse_fwht_result = tr.fwht(fwht_result, -1)
-
-    # fwht_result_copy = fwht_result[:]
-    # for i in range(n):
-        # print(i, tr.gray_to_binary(tr.reverse_bits(i, int(np.log2(n)))))
-        # fwht_result[i] = fwht_result_copy[tr.gray_to_binary(tr.reverse_bits(i, int(np.log2(n))))]
 
     for i in range(n):
         print(dwt_result[i], ' : ', fwht_result[i])
@@ -30,21 +23,13 @@ def main():
     ax1.set(title='Function plot')
     ax1.grid()
 
-    ax3.plot(arguments, dwt_result)
+    ax3.stem(arguments, dwt_result, markerfmt=' ')
     ax3.set(title='Magnitude spectrum plot (DWT)')
     ax3.grid()
 
-    ax4.plot(arguments, fwht_result)
+    ax4.stem(arguments, fwht_result, markerfmt=' ')
     ax4.set(title='Magnitude spectrum plot (FWHT)')
     ax4.grid()
-
-    # ax3.stem(arguments, dwht_result, markerfmt=' ')
-    # ax3.set(title='Magnitude spectrum plot (DWT)')
-    # ax3.grid()
-
-    # ax4.stem(arguments, fwht_result, markerfmt=' ')
-    # ax4.set(title='Magnitude spectrum plot (FWHT)')
-    # ax4.grid()
 
     ax5.plot(arguments, reverse_dwt_result)
     ax5.set(title='Reverse DWT plot')
