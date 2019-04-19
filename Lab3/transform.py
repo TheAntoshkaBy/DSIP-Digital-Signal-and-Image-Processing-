@@ -2,6 +2,34 @@ import numpy as np
 from functools import reduce
 
 
+def dwht(input_data, direction=1):
+    input_length = len(input_data)
+
+    if is_power_of_two(input_length):
+        length = input_length
+        bits_in_length = int(np.log2(length))
+    else:
+        bits_in_length = np.log2(input_length)
+        length = 1 << bits_in_length
+
+    data = input_data[0:length]
+
+    hadamard_base2_matrix = np.array([[1, 1], [1, -1]])
+    hadamard_matrix = []
+    for i in range(bits_in_length - 1):
+        if i == 0:
+            hadamard_matrix = np.kron(hadamard_base2_matrix, hadamard_base2_matrix)
+        else:
+            hadamard_matrix = np.kron(hadamard_matrix, hadamard_base2_matrix)
+
+    result = np.dot(hadamard_matrix, data)
+
+    if direction == 1:
+        result /= length
+
+    return result
+
+
 def fwht(input_data, direction=1):
     input_length = len(input_data)
 
@@ -12,26 +40,18 @@ def fwht(input_data, direction=1):
         bits_in_length = np.log2(input_length)
         length = 1 << bits_in_length
 
-    data = input_data[:]
+    data = input_data[0:length]
 
     for ldm in range(bits_in_length, 0, -1):
         m = 2 ** ldm
         mh = int(m / 2)
         for k in range(mh):
-            w = np.exp(direction * -2j * np.pi * k / m)
             for r in range(0, length, m):
                 u = data[r + k]
                 v = data[r + k + mh]
 
                 data[r + k] = u + v
                 data[r + k + mh] = u - v
-
-    for i in range(length):
-        j = reverse_bits(i, bits_in_length)
-        if j > i:
-            temp = data[j]
-            data[j] = data[i]
-            data[i] = temp
 
     if direction == 1:
         data = list(np.divide(data, length))
@@ -56,7 +76,7 @@ def reverse_bits(n, bits_count):
     return reversed_value
 
 
-def dwt(data, direction):
+def dwt(data, direction=1):
     time_offset = 0.001
     length = len(data)
 
@@ -69,6 +89,11 @@ def dwt(data, direction):
                 ) for i in range(length)
             ]
         )
+
+        if direction == 1:
+           print([walsh_function(
+               n if direction == 1 else i, (i if direction == 1 else n) / length + time_offset, length
+           ) for i in range(length)])
 
         transformed_result.append(temp)
 
