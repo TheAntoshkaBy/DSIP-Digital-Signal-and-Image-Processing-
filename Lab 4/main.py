@@ -4,10 +4,6 @@ import matplotlib.pyplot as plt
 
 def main():
     max_decomposition_depth = 4
-    analysis_low_pass = [0.5, 0.5]
-    analysis_high_pass = [0.5, -0.5]
-    synthesis_low_pass = [1, 1]
-    synthesis_high_pass = [1, -1]
     initial_data = [10, 6, 6, 1, 7, 2, 13, 4, 12, 10, 11, 8, 6, 10, 12, 13]
     initial_len = len(initial_data)
     time_stems = [i for i in range(1, len(initial_data) + 1)]
@@ -23,9 +19,9 @@ def main():
             extended_result += [x for i in range(int(initial_len / len(inverse_wavelet_results[i])))]
 
         inverse_wavelet_results[i] = extended_result
-        print('e', extended_result)
 
     print(wavelet_transform_result)
+    print(inverse_wavelet_results[0])
 
     fig, ((ax1, ax2), (ax3, ax4), (ax5, ax6)) = plt.subplots(3, 2)
 
