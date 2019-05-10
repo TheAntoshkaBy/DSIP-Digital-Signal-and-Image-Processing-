@@ -1,4 +1,4 @@
-def temp_fwt(signal: list, decomposition_depth: int):
+def easy_fwt(signal: list, decomposition_depth: int):
     if len(signal) == 1 or decomposition_depth == 0:
         return signal
 
