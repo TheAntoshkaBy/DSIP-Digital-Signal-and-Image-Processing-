@@ -8,10 +8,10 @@ def main():
     initial_len = len(initial_data)
     time_stems = [i for i in range(1, len(initial_data) + 1)]
 
-    wavelet_transform_result = tr.temp_fwt(initial_data, max_decomposition_depth)
+    wavelet_transform_result = tr.easy_fwt(initial_data, max_decomposition_depth)
     inverse_wavelet_results = []
     for i in range(max_decomposition_depth):
-        inverse_wavelet_results.append(tr.temp_ifwt(wavelet_transform_result, i + 1))
+        inverse_wavelet_results.append(tr.easy_ifwt(wavelet_transform_result, i + 1))
 
     for i in range(max_decomposition_depth):
         extended_result = []
@@ -29,20 +29,20 @@ def main():
     ax1.set(title='Initial signal')
     ax1.grid()
 
-    ax3.plot(time_stems, inverse_wavelet_results[3])
-    ax3.set(title='IFWT level 4')
+    ax3.plot(time_stems, inverse_wavelet_results[0])
+    ax3.set(title='IFWT level 1')
     ax3.grid()
 
-    ax4.plot(time_stems, inverse_wavelet_results[2])
-    ax4.set(title='IFWT level 3')
+    ax4.plot(time_stems, inverse_wavelet_results[1])
+    ax4.set(title='IFWT level 2')
     ax4.grid()
 
-    ax5.plot(time_stems, inverse_wavelet_results[1])
-    ax5.set(title='IFWT level 2')
+    ax5.plot(time_stems, inverse_wavelet_results[2])
+    ax5.set(title='IFWT level 3')
     ax5.grid()
 
-    ax6.plot(time_stems, inverse_wavelet_results[0])
-    ax6.set(title='IFWT level 1')
+    ax6.plot(time_stems, inverse_wavelet_results[3])
+    ax6.set(title='IFWT level 4')
     ax6.grid()
 
     fig.delaxes(ax2)
